@@ -6,17 +6,33 @@ static void ccze_candlepin_setup (void);
 static void ccze_candlepin_shutdown (void);
 static int ccze_candlepin_handle (const char *str, size_t length, char **rest);
 
-static pcre *reg_candlepin_access, *reg_candlepin_other;
-static pcre_extra *hints_candlepin_access, *hints_candlepin_other;
+static pcre *reg_candlepin_access, *reg_candlepin_other, *reg_candlepin_header;
+static pcre_extra *hints_candlepin_access, *hints_candlepin_other, *hints_candlepin_header;
 
 static ccze_color_t _ccze_candlepin_level (const char *level) {
   if (strstr (level, "DEBUG") || strstr (level, "INFO"))
-    return CCZE_COLOR_DEBUG;
+    return CCZE_COLOR_DEFAULT;
   if (strstr (level, "WARN"))
     return CCZE_COLOR_WARNING;
   if (strstr (level, "ERROR"))
     return CCZE_COLOR_ERROR;
   return CCZE_COLOR_UNKNOWN;
+}
+
+static char * ccze_candlepin_header_process (const char *srt, int *offsets, int match) {
+  char *header, *value;
+
+  pcre_get_substring(srt, offsets, match, 1, (const char**)&header);
+  pcre_get_substring(srt, offsets, match, 2, (const char**)&value);
+
+  ccze_addstr(CCZE_COLOR_STATIC_WHITE, header);
+  ccze_addstr(CCZE_COLOR_DEFAULT, ":");
+  ccze_addstr(CCZE_COLOR_STATIC_GREEN, value);
+  ccze_newline();
+
+  free(header);
+  free(value);
+  return NULL;
 }
 
 static char * ccze_candlepin_access_log_process (const char *str, int *offsets, int match) {
@@ -88,6 +104,11 @@ static void ccze_candlepin_setup (void) {
      0, &error, &errptr, NULL);
   hints_candlepin_access = pcre_study (reg_candlepin_access, 0, &error);
 
+  reg_candlepin_header = pcre_compile
+    ("^(.*?):(.*)$",
+     0, &error, &errptr, NULL);
+  hints_candlepin_header = pcre_study (reg_candlepin_header, 0, &error);
+
   reg_candlepin_other = pcre_compile
     ("^(.*)$",
      0, &error, &errptr, NULL);
@@ -110,13 +131,19 @@ static int ccze_candlepin_handle (const char *str, size_t length, char **rest) {
       *rest = ccze_candlepin_access_log_process (str, offsets, match);
       return 1;
     }
-  if ((match = pcre_exec (reg_candlepin_other, hints_candlepin_other,
+ if ((match = pcre_exec (reg_candlepin_header, hints_candlepin_header,
+			  str, length, 0, 0, offsets, 99)) >= 0)
+    {
+      *rest = ccze_candlepin_header_process (str, offsets, match);
+      return 1;
+    }
+ // For everything else...
+ if ((match = pcre_exec (reg_candlepin_other, hints_candlepin_other,
 			  str, length, 0, 0, offsets, 99)) >= 0)
     {
       *rest = ccze_candlepin_other_log_process (str, offsets, match);
       return 1;
     }
-
   return 0;
 }
 
