@@ -46,9 +46,9 @@ static char * ccze_candlepin_access_log_process (const char *str, int *offsets, 
   pcre_get_substring(str, offsets, match, 5, (const char**)&class);
   pcre_get_substring(str, offsets, match, 6, (const char**)&message);
 
-  ccze_addstr (CCZE_COLOR_DATE, date);
+  ccze_addstr (CCZE_COLOR_STATIC_GREEN, date);
   ccze_space ();
-  ccze_addstr (CCZE_COLOR_FIELD, time);
+  ccze_addstr (CCZE_COLOR_DATE, time);
   ccze_space ();
 
   ccze_addstr (CCZE_COLOR_STATIC_BLUE, mdc);
@@ -58,7 +58,7 @@ static char * ccze_candlepin_access_log_process (const char *str, int *offsets, 
   ccze_addstr (lcol, log_level);
   ccze_space ();
 
-  ccze_addstr (CCZE_COLOR_SUBJECT, class);
+  ccze_addstr (CCZE_COLOR_STATIC_MAGENTA, class);
   ccze_space ();
 
   ccze_addstr (CCZE_COLOR_DEFAULT, "-");
@@ -126,20 +126,20 @@ static int ccze_candlepin_handle (const char *str, size_t length, char **rest) {
   int match, offsets[99];
 
   if ((match = pcre_exec (reg_candlepin_access, hints_candlepin_access,
-			  str, length, 0, 0, offsets, 99)) >= 0)
+              str, length, 0, 0, offsets, 99)) >= 0)
     {
       *rest = ccze_candlepin_access_log_process (str, offsets, match);
       return 1;
     }
  if ((match = pcre_exec (reg_candlepin_header, hints_candlepin_header,
-			  str, length, 0, 0, offsets, 99)) >= 0)
+              str, length, 0, 0, offsets, 99)) >= 0)
     {
       *rest = ccze_candlepin_header_process (str, offsets, match);
       return 1;
     }
  // For everything else...
  if ((match = pcre_exec (reg_candlepin_other, hints_candlepin_other,
-			  str, length, 0, 0, offsets, 99)) >= 0)
+              str, length, 0, 0, offsets, 99)) >= 0)
     {
       *rest = ccze_candlepin_other_log_process (str, offsets, match);
       return 1;
