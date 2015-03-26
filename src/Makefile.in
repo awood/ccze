@@ -15,7 +15,7 @@ ALL_LDFLAGS	= ${LDFLAGS} ${LIBS}
 INCLUDES	= -I. -I${srcdir} -I${top_builddir}
 DEFINES		= -DPATCHLEVEL=\"${PATCHLEVEL}\" -DSYSCONFDIR=\"${sysconfdir}\" \
 		-D_GNU_SOURCE=1 -DPKGLIBDIR=\"${pkglibdir}\" -DHAVE_SYSTEM_H=1 \
-		-DBUILTIN=1
+		-DBUILTIN=1 -D__error_t_defined=1
 WFLAGS		= @WFLAGS@
 WFLAGS_GCC	= -Wshadow -Wpointer-arith -Waggregate-return \
 		-Wstrict-prototypes -Wmissing-prototypes -Wcast-qual \
