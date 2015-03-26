@@ -17,7 +17,7 @@ EXTRA_DIST	= ccze.1.in ccze-plugin.7.in ccze-cssdump.1.in
 ## -- Generic rules -- ##
 all: ${MANS}
 
-%: %.in ${top_srcdir}/ChangeLog
+%: %.in ${top_srcdir}/CHANGES
 	sed -e "s,@VERSION\@,${VERSION},g" \
 	    -e "s,@sysconfdir\@,${sysconfdir},g" \
 	    -e "s,@pkglibdir\@,${pkglibdir},g" \

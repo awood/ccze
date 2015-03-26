@@ -8,9 +8,9 @@ include Rules.mk
 
 ## -- Private variables -- ##
 EXTRA_DIST	= Rules.mk.in configure configure.ac system.h.in \
-		COPYING ChangeLog install-sh config.guess config.sub \
+		COPYING install-sh config.guess config.sub \
 		AUTHORS README NEWS INSTALL THANKS ccze.spec.in \
-		ccze.spec ccze.plugins FAQ ChangeLog-0.1
+		ccze.spec ccze.plugins FAQ CHANGES
 DISTCLEANFILES	= ccze.spec
 
 ## -- Generic rules -- ##
@@ -66,7 +66,7 @@ distcheck: dist
 	echo "$$banner" ;\
 	echo "$$dashes"
 
-${top_srcdir}/ccze.spec: ccze.spec.in Rules.mk ${top_srcdir}/ChangeLog
+${top_srcdir}/ccze.spec: ccze.spec.in Rules.mk ${top_srcdir}/CHANGES
 	sed -e "s,@VERSION@,${VERSION},g" -e "s,@DIST@,${DIST},g" \
 	    <$@.in >$@
 

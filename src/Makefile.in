@@ -101,7 +101,7 @@ endif
 
 ## -- Dependencies -- ##
 ccze.o: ccze.c ${top_builddir}/system.h ccze.h ccze-private.h \
-	${top_srcdir}/ChangeLog
+	${top_srcdir}/CHANGES
 ccze-color.o: ccze-color.c ${top_builddir}/system.h ccze.h ccze-private.h
 ccze-plugin.o: ccze-plugin.c ${top_builddir}/system.h ccze.h ccze-private.h
 ccze-wordcolor.o: ccze-wordcolor.c ${top_builddir}/system.h ccze.h \
