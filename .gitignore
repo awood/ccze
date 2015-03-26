@@ -18,5 +18,12 @@
 *.so
 *.so.*
 
+*.log
+*.status
+doc/*.1
+doc/*.7
+
+# Ignore files generated from .in files
+system.h
 Makefile
 Rules.mk
