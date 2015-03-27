@@ -23,6 +23,9 @@
 doc/*.1
 doc/*.7
 
+# Ignore generated plugins file
+ccze-builtins.c
+
 # Ignore files generated from .in files
 system.h
 Makefile
