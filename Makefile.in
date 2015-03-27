@@ -20,6 +20,10 @@ all-recursive:
 	${MAKE} -C src all
 	${MAKE} -C testsuite all
 
+swig::
+	swig -Wall -python -modern -modernargs -fastproxy -fastinit -fastunpack -noproxydel -safecstrings -module pyccze swig/pyccze.i
+	python ./setup.py build_ext --build-lib swig
+
 install uninstall:
 	${MAKE} -C doc $@
 	${MAKE} -C src $@
@@ -32,6 +36,7 @@ mostlyclean clean::
 	${MAKE} -C src $@
 	${MAKE} -C testsuite $@
 	rm -rf *~ ++* ,,* gmon.out bb.out
+	rm -f swig/pyccze_wrap.c swig/pyccze.py
 
 distclean:: clean
 	${MAKE} -C doc $@

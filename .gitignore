@@ -25,6 +25,8 @@ doc/*.7
 
 # Ignore generated plugins file
 ccze-builtins.c
+swig/pyccze*.c
+swig/pyccze*.py
 
 # Ignore files generated from .in files
 system.h
