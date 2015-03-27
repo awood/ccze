@@ -1,3 +1,7 @@
+An experiment with CCZE to add a Python plugin architecture using
+SWIG
+
+---
 This is CCZE, a fast log colorizer written in C, intended to be a
 drop-in replacement for colorize (http://colorize.raszi.hu).
 
